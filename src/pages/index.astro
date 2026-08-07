@@ -47,6 +47,32 @@
       <span class="streak__text">Racha × <span id="streak-num">0</span></span>
     </div>
 
+    <!-- Chiguire de compañía: mascota en la esquina, salta de alegría en cada hito -->
+    <div id="chiguire" class="chiguire" aria-hidden="true">
+      <svg viewBox="0 0 140 112" width="100%" height="100%">
+        <g class="chiguire__figure">
+          <!-- patas -->
+          <rect x="42" y="84" width="12" height="18" rx="6" fill="#8f6a47" />
+          <rect x="88" y="84" width="12" height="18" rx="6" fill="#8f6a47" />
+          <!-- cuerpo -->
+          <rect x="14" y="40" width="98" height="52" rx="26" fill="#b88c60" />
+          <!-- cabeza -->
+          <circle cx="102" cy="42" r="25" fill="#b88c60" />
+          <!-- oreja -->
+          <ellipse class="chiguire__ear" cx="92" cy="20" rx="6" ry="8" fill="#8f6a47" />
+          <!-- hocico -->
+          <ellipse cx="121" cy="52" rx="9" ry="7" fill="#8f6a47" />
+          <circle cx="124" cy="49" r="1.6" fill="#4a3524" />
+          <!-- ojo -->
+          <circle class="chiguire__eye" cx="108" cy="36" r="3.4" fill="#4a3524" />
+          <!-- sonrisa -->
+          <path d="M112 58 q4 4 9 2" stroke="#4a3524" stroke-width="2" fill="none" stroke-linecap="round" />
+          <!-- rubor rosa a juego con la página -->
+          <circle cx="106" cy="50" r="4.5" fill="#ff7ba9" opacity="0.45" />
+        </g>
+      </svg>
+    </div>
+
     <div id="counter" class="counter" aria-live="polite" aria-label="Cuenta de te amo">
       <span class="counter__heart" aria-hidden="true">💗</span>
       <span class="counter__num" id="counter-num">0</span>
@@ -654,6 +680,94 @@
         filter: drop-shadow(0 0 6px oklch(65% 0.21 358 / 0.7));
       }
 
+      /* Chiguire de compañía: esquina inferior izquierda, respira y parpadea */
+      .chiguire {
+        position: fixed;
+        left: 1.2rem;
+        bottom: 1rem;
+        z-index: 3;
+        width: clamp(88px, 18vw, 128px);
+        pointer-events: none;
+        filter: drop-shadow(0 6px 14px oklch(var(--shadow-deep) / 0.3));
+      }
+
+      .chiguire__figure {
+        transform-box: fill-box;
+        transform-origin: 50% 100%;
+        animation: chiguire-breathe 3.4s ease-in-out infinite;
+      }
+
+      .chiguire__ear {
+        transform-box: fill-box;
+        transform-origin: 50% 100%;
+        animation: chiguire-ear 6s ease-in-out infinite;
+      }
+
+      .chiguire__eye {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: chiguire-blink 5.2s ease-in-out infinite;
+      }
+
+      @keyframes chiguire-breathe {
+        0%,
+        100% {
+          transform: scale(1, 1);
+        }
+        50% {
+          transform: scale(1.015, 1.03);
+        }
+      }
+
+      @keyframes chiguire-ear {
+        0%,
+        88%,
+        100% {
+          transform: rotate(0);
+        }
+        92% {
+          transform: rotate(-14deg);
+        }
+        96% {
+          transform: rotate(10deg);
+        }
+      }
+
+      @keyframes chiguire-blink {
+        0%,
+        94%,
+        100% {
+          transform: scaleY(1);
+        }
+        96%,
+        98% {
+          transform: scaleY(0.1);
+        }
+      }
+
+      /* Salto de alegría al alcanzar un hito */
+      .chiguire.hooray {
+        animation: chiguire-jump 0.9s var(--ease-spring);
+      }
+
+      @keyframes chiguire-jump {
+        0% {
+          transform: translateY(0) rotate(0);
+        }
+        35% {
+          transform: translateY(-26px) rotate(-5deg);
+        }
+        60% {
+          transform: translateY(0) rotate(3deg);
+        }
+        80% {
+          transform: translateY(-8px) rotate(0);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
       /* Botón discreto para reiniciar el conteo */
       .reset {
         position: fixed;
@@ -696,7 +810,11 @@
         .cta::before,
         .cta__emoji,
         .cta__shine,
-        .cta__orbit {
+        .cta__orbit,
+        .chiguire,
+        .chiguire__figure,
+        .chiguire__ear,
+        .chiguire__eye {
           animation: none;
         }
       }
@@ -902,6 +1020,7 @@
       const counterNum = document.getElementById("counter-num")!;
       const recordEl = document.getElementById("record")!;
       const recordNum = document.getElementById("record-num")!;
+      const chiguireEl = document.getElementById("chiguire")!;
 
       // Estado persistente: total de "te amo" y mejor racha
       const KEY_COUNT = "iloveyou:count";
@@ -1030,6 +1149,10 @@
         if (milestone) {
           showToast(milestone);
           celebrate();
+          // el chiguire salta de alegría en cada hito
+          chiguireEl.classList.remove("hooray");
+          void chiguireEl.offsetWidth;
+          chiguireEl.classList.add("hooray");
         }
       }
 
