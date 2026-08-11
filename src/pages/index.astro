@@ -1,6 +1,5 @@
 ---
-// Página romántica: fondo rosa con profundidad, corazones ambientales
-// y confeti con formas variadas que estalla en cada clic mostrando "Te amo".
+import Analytics from '@vercel/analytics/astro'
 ---
 
 <html lang="es">
@@ -19,6 +18,7 @@
     />
   </head>
   <body>
+    <Analytics />
     <!-- Capas de fondo con profundidad -->
     <div class="bg" aria-hidden="true"></div>
     <div class="grain" aria-hidden="true"></div>
