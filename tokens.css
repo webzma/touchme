@@ -19,6 +19,10 @@
   --color-gold: oklch(86% 0.13 85);
   --color-ember: oklch(70% 0.19 40); /* naranja de racha */
 
+  /* Amarillos del 21 de septiembre — flores amarillas */
+  --color-sun: oklch(90% 0.15 97);
+  --color-sun-deep: oklch(80% 0.17 82);
+
   /* Tipografía */
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-ui: "Quicksand", system-ui, -apple-system, sans-serif;
